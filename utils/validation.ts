@@ -1,0 +1,128 @@
+/**
+ * Validation utilities
+ */
+
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const mobileRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
+
+export function isValidEmail(email: string): boolean {
+  return emailRegex.test(email);
+}
+
+export function isValidMobile(mobile: string): boolean {
+  return mobileRegex.test(mobile.replace(/\s/g, ''));
+}
+
+export function isValidEmailOrMobile(value: string): boolean {
+  return isValidEmail(value) || isValidMobile(value);
+}
+
+export function isValidPassword(password: string): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  
+  if (password.length < 8) {
+    errors.push('Password must be at least 8 characters long');
+  }
+  if (!/[A-Z]/.test(password)) {
+    errors.push('Password must contain at least one uppercase letter');
+  }
+  if (!/[a-z]/.test(password)) {
+    errors.push('Password must contain at least one lowercase letter');
+  }
+  if (!/[0-9]/.test(password)) {
+    errors.push('Password must contain at least one number');
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
+}
+
+export function validateLoginForm(emailOrMobile: string, password: string): {
+  valid: boolean;
+  errors: Record<string, string>;
+} {
+  const errors: Record<string, string> = {};
+  
+  if (!emailOrMobile.trim()) {
+    errors.emailOrMobile = 'Email or Mobile Number is required';
+  } else if (!isValidEmailOrMobile(emailOrMobile)) {
+    errors.emailOrMobile = 'Please enter a valid email or mobile number';
+  }
+  
+  if (!password) {
+    errors.password = 'Password is required';
+  }
+  
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+export function validateSignupForm(data: {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  mobileNo?: string;
+  name?: string;
+}): {
+  valid: boolean;
+  errors: Record<string, string>;
+} {
+  const errors: Record<string, string> = {};
+  
+  if (!data.email.trim()) {
+    errors.email = 'Email is required';
+  } else if (!isValidEmail(data.email)) {
+    errors.email = 'Please enter a valid email address';
+  }
+  
+  if (data.mobileNo && !isValidMobile(data.mobileNo)) {
+    errors.mobileNo = 'Please enter a valid mobile number';
+  }
+  
+  if (!data.password) {
+    errors.password = 'Password is required';
+  } else {
+    const passwordValidation = isValidPassword(data.password);
+    if (!passwordValidation.valid) {
+      errors.password = passwordValidation.errors[0];
+    }
+  }
+  
+  if (!data.confirmPassword) {
+    errors.confirmPassword = 'Please confirm your password';
+  } else if (data.password !== data.confirmPassword) {
+    errors.confirmPassword = 'Passwords do not match';
+  }
+  
+  if (data.name && data.name.trim().length < 2) {
+    errors.name = 'Name must be at least 2 characters long';
+  }
+  
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+export function validateResetPasswordForm(email: string): {
+  valid: boolean;
+  errors: Record<string, string>;
+} {
+  const errors: Record<string, string> = {};
+  
+  if (!email.trim()) {
+    errors.email = 'Email is required';
+  } else if (!isValidEmail(email)) {
+    errors.email = 'Please enter a valid email address';
+  }
+  
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+

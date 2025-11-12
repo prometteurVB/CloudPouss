@@ -190,7 +190,7 @@ export default function SignupPage() {
               Empowering seniors with easy access to trusted help, care, and companionship whenever needed.
             </Typography>
             <Typography variant="h5" fontWeight="600" gutterBottom sx={{ mb: 3 }}>
-              02_Enter Contact
+              Enter Email / Mobile No
             </Typography>
             <TextField
               fullWidth

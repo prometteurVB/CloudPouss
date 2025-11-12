@@ -34,7 +34,10 @@ export default function ProfessionalVerifyOtpPage() {
     }
   };
 
-  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleOtpKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLDivElement>
+  ) => {
     if (e.key === "Backspace" && !formData.otp[index] && index > 0) {
       const prevInput = document.getElementById(`otp-${index - 1}`);
       prevInput?.focus();
@@ -59,26 +62,6 @@ export default function ProfessionalVerifyOtpPage() {
         bgcolor: "background.default",
       }}
     >
-      {/* Header Bar */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bgcolor: "#374151",
-          color: "white",
-          py: 1.5,
-          px: 3,
-          zIndex: 1000,
-          display: { xs: "none", md: "block" },
-        }}
-      >
-        <Typography variant="body1" fontWeight="500">
-          02_Enter Contact
-        </Typography>
-      </Box>
-
       {/* Left side - Image Section */}
       <Box
         sx={{
@@ -152,19 +135,38 @@ export default function ProfessionalVerifyOtpPage() {
 
             {/* Content */}
             <Box>
-              <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ color: "#2F6B8E", mb: 1 }}>
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+                gutterBottom
+                sx={{ color: "#2F6B8E", mb: 1 }}
+              >
                 Welcome To CoudPouss!
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-                Empowering seniors with easy access to trusted help, care, and companionship whenever needed.
+                Empowering seniors with easy access to trusted help, care, and
+                companionship whenever needed.
               </Typography>
-              <Typography variant="h5" fontWeight="600" gutterBottom sx={{ mb: 1 }}>
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                gutterBottom
+                sx={{ mb: 1 }}
+              >
                 Create Your Account
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                To continue Please enter the 4 Digit OTP sent to your Email or Phone Number.
+                To continue Please enter the 4 Digit OTP sent to your Email or
+                Phone Number.
               </Typography>
-              <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mb: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  justifyContent: "center",
+                  mb: 2,
+                }}
+              >
                 {formData.otp.map((digit, index) => (
                   <TextField
                     key={index}
@@ -174,7 +176,11 @@ export default function ProfessionalVerifyOtpPage() {
                     onKeyDown={(e) => handleOtpKeyDown(index, e)}
                     inputProps={{
                       maxLength: 1,
-                      style: { textAlign: "center", fontSize: "1.5rem", fontWeight: "bold" },
+                      style: {
+                        textAlign: "center",
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                      },
                     }}
                     sx={{
                       width: 60,
@@ -186,7 +192,11 @@ export default function ProfessionalVerifyOtpPage() {
                 ))}
               </Box>
               {errors.otp && (
-                <Typography color="error" variant="body2" sx={{ mb: 2, textAlign: "center" }}>
+                <Typography
+                  color="error"
+                  variant="body2"
+                  sx={{ mb: 2, textAlign: "center" }}
+                >
                   {errors.otp}
                 </Typography>
               )}

@@ -46,25 +46,6 @@ export default function ProfessionalEnterContactPage() {
         bgcolor: "background.default",
       }}
     >
-      {/* Header Bar */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bgcolor: "#374151",
-          color: "white",
-          py: 1.5,
-          px: 3,
-          zIndex: 1000,
-          display: { xs: "none", md: "block" },
-        }}
-      >
-        <Typography variant="body1" fontWeight="500">
-          01_Select Profile
-        </Typography>
-      </Box>
 
       {/* Left side - Image Section */}
       <Box
@@ -146,7 +127,7 @@ export default function ProfessionalEnterContactPage() {
                 Empowering seniors with easy access to trusted help, care, and companionship whenever needed.
               </Typography>
               <Typography variant="h5" fontWeight="600" gutterBottom sx={{ mb: 3 }}>
-                02_Enter Contact
+                Enter Email / Mobile No
               </Typography>
               <TextField
                 fullWidth

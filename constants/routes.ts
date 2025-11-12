@@ -29,7 +29,11 @@ export const ROUTES = {
   PROFESSIONAL_ONBOARDING_BANK_DETAILS: '/professional-onboarding/bank-details',
   
   DASHBOARD: '/dashboard',
-  PROFESSIONAL_DASHBOARD: '/professional-dashboard',
+  PROFESSIONAL_DASHBOARD: '/professional/dashboard',
+  PROFESSIONAL_EXPLORE_REQUESTS: '/professional/explore-requests',
+  PROFESSIONAL_TASK_MANAGEMENT: '/professional/task-management',
+  PROFESSIONAL_PROFILE: '/professional/profile',
+  PROFESSIONAL_TRANSACTION_HISTORY: '/professional/profile/transaction-history',
   PROFILE: '/profile',
   MY_REQUESTS: '/my-requests',
   SERVICES: '/services',

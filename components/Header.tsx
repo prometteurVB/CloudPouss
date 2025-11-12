@@ -49,8 +49,8 @@ export default function Header({
   const router = useRouter();
   const pathname = usePathname();
 
-  // Check if we're on professional dashboard
-  const isProfessionalDashboard = pathname === ROUTES.PROFESSIONAL_DASHBOARD;
+  // Check if we're on professional dashboard or its sub-routes (including professional profile)
+  const isProfessionalDashboard = pathname?.startsWith('/professional');
   const [userInitial, setUserInitial] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("userInitial");
@@ -66,6 +66,8 @@ export default function Header({
   const [servicesMenuAnchor, setServicesMenuAnchor] =
     useState<null | HTMLElement>(null);
   const [notificationsMenuAnchor, setNotificationsMenuAnchor] =
+    useState<null | HTMLElement>(null);
+  const [profileMenuAnchor, setProfileMenuAnchor] =
     useState<null | HTMLElement>(null);
   const [bookServiceModalOpen, setBookServiceModalOpen] = useState(false);
 
@@ -108,6 +110,14 @@ export default function Header({
 
   const handleNotificationsMenuClose = () => {
     setNotificationsMenuAnchor(null);
+  };
+
+  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setProfileMenuAnchor(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setProfileMenuAnchor(null);
   };
 
   // Determine home route - use prop if provided, otherwise based on authentication
@@ -202,11 +212,21 @@ export default function Header({
                     </Button>
                     <Button
                       component={Link}
-                      href="/professional-dashboard/explore-requests"
+                      href={ROUTES.PROFESSIONAL_EXPLORE_REQUESTS}
                       sx={{
-                        color: "text.secondary",
+                        color:
+                          pathname === ROUTES.PROFESSIONAL_EXPLORE_REQUESTS
+                            ? "primary.main"
+                            : "text.secondary",
                         textTransform: "none",
                         display: { xs: "none", lg: "block" },
+                        borderBottom:
+                          pathname === ROUTES.PROFESSIONAL_EXPLORE_REQUESTS
+                            ? "2px solid"
+                            : "none",
+                        borderColor: "primary.main",
+                        borderRadius: 0,
+                        pb: pathname === ROUTES.PROFESSIONAL_EXPLORE_REQUESTS ? 1 : 0,
                         "&:hover": {
                           bgcolor: "transparent",
                           color: "primary.main",
@@ -217,11 +237,21 @@ export default function Header({
                     </Button>
                     <Button
                       component={Link}
-                      href="/professional-dashboard/task-management"
+                      href={ROUTES.PROFESSIONAL_TASK_MANAGEMENT}
                       sx={{
-                        color: "text.secondary",
+                        color:
+                          pathname === ROUTES.PROFESSIONAL_TASK_MANAGEMENT
+                            ? "primary.main"
+                            : "text.secondary",
                         textTransform: "none",
                         display: { xs: "none", lg: "block" },
+                        borderBottom:
+                          pathname === ROUTES.PROFESSIONAL_TASK_MANAGEMENT
+                            ? "2px solid"
+                            : "none",
+                        borderColor: "primary.main",
+                        borderRadius: 0,
+                        pb: pathname === ROUTES.PROFESSIONAL_TASK_MANAGEMENT ? 1 : 0,
                         "&:hover": {
                           bgcolor: "transparent",
                           color: "primary.main",
@@ -1163,8 +1193,7 @@ export default function Header({
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
                       <Box
-                        component={Link}
-                        href={ROUTES.PROFILE}
+                        onClick={handleProfileMenuOpen}
                         sx={{
                           width: 40,
                           height: 40,
@@ -1183,6 +1212,7 @@ export default function Header({
                         {userInitial}
                       </Box>
                       <IconButton
+                        onClick={handleProfileMenuOpen}
                         sx={{
                           color: "text.secondary",
                           p: 0,
@@ -1194,6 +1224,169 @@ export default function Header({
                         <KeyboardArrowDownIcon />
                       </IconButton>
                     </Box>
+                    
+                    {/* Profile Dropdown Menu */}
+                    <Menu
+                      anchorEl={profileMenuAnchor}
+                      open={Boolean(profileMenuAnchor)}
+                      onClose={handleProfileMenuClose}
+                      PaperProps={{
+                        sx: {
+                          mt: 1.5,
+                          minWidth: 280,
+                          borderRadius: 3,
+                          boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+                          p: 2,
+                        },
+                      }}
+                      transformOrigin={{ horizontal: "right", vertical: "top" }}
+                      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                    >
+                      <Box>
+                        {/* User Name */}
+                        <Typography
+                          variant="h6"
+                          fontWeight="600"
+                          sx={{ color: "#2F6B8E", mb: 0.5 }}
+                        >
+                          Cameron Williamson
+                        </Typography>
+                        <Button
+                          component={Link}
+                          href={isProfessionalDashboard ? ROUTES.PROFESSIONAL_PROFILE : ROUTES.PROFILE}
+                          onClick={handleProfileMenuClose}
+                          sx={{
+                            textTransform: "none",
+                            color: "#6B7280",
+                            fontSize: "0.9rem",
+                            p: 0,
+                            mb: 2,
+                            justifyContent: "flex-start",
+                            "&:hover": {
+                              bgcolor: "transparent",
+                              color: "#2F6B8E",
+                            },
+                          }}
+                        >
+                          View my profile
+                        </Button>
+
+                        {/* Menu Items */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 0.5,
+                          }}
+                        >
+                          <Button
+                            fullWidth
+                            sx={{
+                              textTransform: "none",
+                              color: "#6B7280",
+                              fontSize: "0.95rem",
+                              justifyContent: "flex-start",
+                              py: 1.5,
+                              px: 2,
+                              borderRadius: 2,
+                              "&:hover": {
+                                bgcolor: "#F3F4F6",
+                                color: "#2F6B8E",
+                              },
+                            }}
+                          >
+                            My Earnings
+                          </Button>
+                          <Button
+                            fullWidth
+                            sx={{
+                              textTransform: "none",
+                              color: "#6B7280",
+                              fontSize: "0.95rem",
+                              justifyContent: "flex-start",
+                              py: 1.5,
+                              px: 2,
+                              borderRadius: 2,
+                              "&:hover": {
+                                bgcolor: "#F3F4F6",
+                                color: "#2F6B8E",
+                              },
+                            }}
+                          >
+                            Manage Services
+                          </Button>
+                          <Button
+                            fullWidth
+                            sx={{
+                              textTransform: "none",
+                              color: "#6B7280",
+                              fontSize: "0.95rem",
+                              justifyContent: "flex-start",
+                              py: 1.5,
+                              px: 2,
+                              borderRadius: 2,
+                              "&:hover": {
+                                bgcolor: "#F3F4F6",
+                                color: "#2F6B8E",
+                              },
+                            }}
+                          >
+                            Manage Subscription
+                          </Button>
+                          <Button
+                            fullWidth
+                            sx={{
+                              textTransform: "none",
+                              color: "#6B7280",
+                              fontSize: "0.95rem",
+                              justifyContent: "flex-start",
+                              py: 1.5,
+                              px: 2,
+                              borderRadius: 2,
+                              "&:hover": {
+                                bgcolor: "#F3F4F6",
+                                color: "#2F6B8E",
+                              },
+                            }}
+                          >
+                            Ratings & Reviews
+                          </Button>
+
+                          {/* Divider */}
+                          <Box
+                            sx={{
+                              height: 1,
+                              bgcolor: "#E5E7EB",
+                              my: 1,
+                            }}
+                          />
+
+                          {/* Sign Out */}
+                          <Button
+                            fullWidth
+                            onClick={() => {
+                              handleProfileMenuClose();
+                              handleLogout();
+                            }}
+                            sx={{
+                              textTransform: "none",
+                              color: "#2F6B8E",
+                              fontSize: "0.95rem",
+                              fontWeight: 600,
+                              justifyContent: "flex-start",
+                              py: 1.5,
+                              px: 2,
+                              borderRadius: 2,
+                              "&:hover": {
+                                bgcolor: "#F3F4F6",
+                              },
+                            }}
+                          >
+                            Sign Out
+                          </Button>
+                        </Box>
+                      </Box>
+                    </Menu>
                   </Box>
                 )}
 

@@ -2,11 +2,11 @@
 
 import React from "react";
 import Image from "next/image";
-import { Box, Card, Typography, Button, Chip } from "@mui/material";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { Box, Card, Typography, Button } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PeopleIcon from "@mui/icons-material/People";
+import { useRouter } from "next/navigation";
 
 interface ServiceRequestCardProps {
   id: number;
@@ -21,27 +21,36 @@ interface ServiceRequestCardProps {
 }
 
 export default function ServiceRequestCard({
+  id,
   title,
   image,
   date,
   time,
-  serviceProvider,
   location,
   estimatedCost,
   timeAgo,
 }: ServiceRequestCardProps) {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(`/professional/request-view/${id}`);
+  };
+
   return (
     <Card
+      onClick={handleCardClick}
       sx={{
         borderRadius: 3,
         overflow: "hidden",
-        bgcolor: "#F3F4F6",
-        boxShadow: "none",
+        bgcolor: "white",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
         border: "1px solid #E5E7EB",
         transition: "all 0.3s ease",
+        cursor: "pointer",
+        maxWidth: 320,
         "&:hover": {
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-          transform: "translateY(-2px)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+          transform: "translateY(-4px)",
         },
       }}
     >
@@ -49,17 +58,40 @@ export default function ServiceRequestCard({
       <Box
         sx={{
           position: "relative",
-          height: 180,
+          height: 200,
           width: "100%",
           bgcolor: "#E5E7EB",
         }}
       >
+        {/* Category Badge */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 12,
+            left: 12,
+            bgcolor: "#2F6B8E",
+            color: "white",
+            px: 1.5,
+            py: 0.5,
+            borderRadius: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: 0.5,
+            zIndex: 2,
+          }}
+        >
+          <PeopleIcon sx={{ fontSize: "0.9rem" }} />
+          <Typography variant="caption" fontWeight="600" sx={{ fontSize: "0.75rem" }}>
+            DIY
+          </Typography>
+        </Box>
+        
         <Image
           src={image}
           alt={title}
           fill
           style={{ objectFit: "cover" }}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 320px"
         />
       </Box>
 
@@ -79,7 +111,7 @@ export default function ServiceRequestCard({
             sx={{
               color: "#2F6B8E",
               fontWeight: 600,
-              fontSize: "1.1rem",
+              fontSize: "1.125rem",
             }}
           >
             {title}
@@ -87,7 +119,7 @@ export default function ServiceRequestCard({
           <Typography
             variant="caption"
             sx={{
-              color: "#6B7280",
+              color: "#9CA3AF",
               fontSize: "0.75rem",
               whiteSpace: "nowrap",
               ml: 1,
@@ -97,51 +129,22 @@ export default function ServiceRequestCard({
           </Typography>
         </Box>
 
-        {/* Details Grid */}
+        {/* Details */}
         <Box sx={{ mb: 2.5 }}>
-          {/* Date and Time Row */}
-          <Box
-            sx={{
-              display: "flex",
-              gap: 3,
-              mb: 1.5,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-              <CalendarTodayIcon
-                sx={{ fontSize: "1rem", color: "#6B7280" }}
-              />
-              <Typography variant="body2" sx={{ color: "#374151", fontSize: "0.875rem" }}>
-                {date}
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-              <AccessTimeIcon sx={{ fontSize: "1rem", color: "#6B7280" }} />
-              <Typography variant="body2" sx={{ color: "#374151", fontSize: "0.875rem" }}>
-                {time}
-              </Typography>
-            </Box>
+          {/* Date and Time */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mb: 1.25 }}>
+            <AccessTimeIcon sx={{ fontSize: "1.1rem", color: "#1F2937" }} />
+            <Typography variant="body2" sx={{ color: "#1F2937", fontSize: "0.875rem" }}>
+              {date}, {time}
+            </Typography>
           </Box>
 
-          {/* Service Provider and Location Row */}
-          <Box
-            sx={{
-              display: "flex",
-              gap: 3,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-              <PeopleIcon sx={{ fontSize: "1rem", color: "#6B7280" }} />
-              <Typography variant="body2" sx={{ color: "#374151", fontSize: "0.875rem" }}>
-                {serviceProvider}
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-              <LocationOnIcon sx={{ fontSize: "1rem", color: "#6B7280" }} />
-              <Typography variant="body2" sx={{ color: "#374151", fontSize: "0.875rem" }}>
-                {location}
-              </Typography>
-            </Box>
+          {/* Location */}
+          <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.75 }}>
+            <LocationOnIcon sx={{ fontSize: "1.1rem", color: "#1F2937", mt: 0.1 }} />
+            <Typography variant="body2" sx={{ color: "#1F2937", fontSize: "0.875rem", lineHeight: 1.5 }}>
+              {location}
+            </Typography>
           </Box>
         </Box>
 
@@ -178,6 +181,10 @@ export default function ServiceRequestCard({
           </Box>
           <Button
             variant="contained"
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push(`/professional/request-view/${id}`);
+            }}
             sx={{
               bgcolor: "#2F6B8E",
               color: "white",

@@ -58,26 +58,6 @@ export default function ProfessionalCreatePasswordPage() {
         bgcolor: "background.default",
       }}
     >
-      {/* Header Bar */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bgcolor: "#374151",
-          color: "white",
-          py: 1.5,
-          px: 3,
-          zIndex: 1000,
-          display: { xs: "none", md: "block" },
-        }}
-      >
-        <Typography variant="body1" fontWeight="500">
-          03_Verify OTP
-        </Typography>
-      </Box>
-
       {/* Left side - Image Section */}
       <Box
         sx={{

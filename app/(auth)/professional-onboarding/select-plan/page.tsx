@@ -198,7 +198,7 @@ export default function SelectPlanPage() {
                   fullWidth
                   variant="outlined"
                   size="large"
-                  onClick={() => router.back()}
+                  onClick={() => router.push(ROUTES.PROFESSIONAL_DASHBOARD)}
                   sx={{
                     borderColor: "#2F6B8E",
                     color: "#2F6B8E",
